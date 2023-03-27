@@ -5,7 +5,7 @@
         <div class="row justify-content-center mb-4">
             <div class="col">
                 <h1>
-                    Create a new Type
+                    Create a new Technology
                 </h1>
             </div>
         </div>
@@ -14,7 +14,7 @@
 
         <div class="row mb-4">
             <div class="col">
-                <form action="{{ route('admin.types.store') }}" method="POST">
+                <form action="{{ route('admin.technologies.store') }}" method="POST">
                     @csrf
 
                     <div class="mb-3">

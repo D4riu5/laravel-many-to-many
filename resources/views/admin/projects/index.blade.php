@@ -24,11 +24,7 @@
 
                 <form action="{{ route('admin.projects.index') }}" method="GET">
                     <div>
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Search by Project title..."
-                            class="form-control"
+                        <input type="text" name="title" placeholder="Search by Project title..." class="form-control"
                             value="{{ request()->input('title') }}">
                     </div>
                     <div>
@@ -56,7 +52,11 @@
                         @foreach ($projects as $project)
                             <tr>
                                 <th scope="row">{{ $project->id }}</th>
-                                <td>{{ $project->title }}</td>
+                                <td>
+                                    <a style="color: darkblue" href="{{ route('admin.projects.show', $project->id) }}">
+                                        {{ $project->title }}
+                                    </a>
+                                </td>
                                 <td>{{ $project->slug }}</td>
                                 <td>
                                     @if ($project->type)

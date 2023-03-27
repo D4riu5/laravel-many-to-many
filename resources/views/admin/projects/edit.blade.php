@@ -50,6 +50,30 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label d-block mb-2">
+                            Technology
+                        </label>
+                        @foreach ($technologies as $technology)
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" name="technologies[]" type="checkbox"
+                                    id="technology-{{ $technology->id }}" 
+                                    {{-- {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }} --}}
+                                    
+                                    @if (old('technologies') && is_array(old('technologies')) && count(old('technologies')) > 0)
+                                        {{ in_array($technology->id, old('technologies')) ? 'checked' : '' }}
+                                    @elseif ($project->technologies->contains($technology->id))
+                                        checked
+                                    @endif
+
+                                    value="{{ $technology->id }}">
+                                <label class="form-check-label" for="technology-{{ $technology->id }}">
+                                    {{ $technology->name }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="mb-3">
                         <label for="img" class="form-label">
                             Old image preview
                         </label>

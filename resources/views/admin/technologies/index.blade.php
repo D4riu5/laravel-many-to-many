@@ -24,7 +24,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Name</th>
                             <th scope="col">Slug</th>
-                            <th scope="col"># Projects</th>
+                            <th scope="col"># on Projects</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -32,17 +32,24 @@
                         @foreach ($technologies as $technology)
                             <tr>
                                 <th scope="row">{{ $technology->id }}</th>
-                                <td>{{ $technology->name }}</td>
+                                <td>
+                                    <a style="color: darkblue" href="{{ route('admin.technologies.show', $technology->id) }}">
+                                        {{ $technology->name }}
+                                    </a>
+                                </td>
                                 <td>{{ $technology->slug }}</td>
                                 <td>{{ $technology->projects()->count() }}</td>
                                 <td style="width:20%">
-                                    <a href="{{  route('admin.technologies.show', $technology->id) }}" class="btn btn-primary">
+                                    <a href="{{ route('admin.technologies.show', $technology->id) }}"
+                                        class="btn btn-primary">
                                         <i class="fa-solid fa-circle-info"></i>
                                     </a>
-                                    <a href="{{ route('admin.technologies.edit', $technology->id) }}" class="btn btn-warning">
+                                    <a href="{{ route('admin.technologies.edit', $technology->id) }}"
+                                        class="btn btn-warning">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
-                                    <form class="d-inline-block" action="{{ route('admin.technologies.destroy', $technology->id) }}" method="POST"
+                                    <form class="d-inline-block"
+                                        action="{{ route('admin.technologies.destroy', $technology->id) }}" method="POST"
                                         onsubmit="return confirm('Are you sure you want to delete this technology');">
                                         @csrf
                                         @method('DELETE')

@@ -5,7 +5,7 @@
         <div class="row justify-content-center mb-4">
             <div class="col">
                 <h1>
-                    Edit Type
+                    Edit Technology
                 </h1>
             </div>
         </div>
@@ -16,7 +16,7 @@
 
         <div class="row mb-4">
             <div class="col">
-                <form action="{{ route('admin.types.update', $type->id) }}" method="POST">
+                <form action="{{ route('admin.technologies.update', $technology->id) }}" method="POST">
                     @csrf
 
                     @method('PUT')
@@ -26,7 +26,7 @@
                             Name<span class="text-danger"> *</span>
                         </label>
                         <input type="text" class="form-control" id="name" name="name" required maxlength="128"
-                            value="{{ old('name', $type->name) }}" placeholder="Insert name...">
+                            value="{{ old('name', $technology->name) }}" placeholder="Insert name...">
                     </div>
 
                     <div>

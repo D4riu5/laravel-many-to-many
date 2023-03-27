@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-// Modle
+// Model
 use App\Models\Project;
 use App\Models\Type;
 
@@ -29,7 +29,7 @@ class ProjectSeeder extends Seeder
             if (rand(0, 1) == 1) {
                 $typeId = Type::inRandomOrder()->first()->id;
             }
-
+            
             Project::create([
                 'title' => $title,
                 'slug' => Str::slug($title),

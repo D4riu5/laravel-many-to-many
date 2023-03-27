@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 
@@ -30,22 +31,20 @@ class ProjectController extends Controller
     public function index()
     {
         // search bar request
-        
+
         $titleFromSearch = request()->input('title');
         if (isset($titleFromSearch)) {
-            $projects = Project::where('title', 'LIKE', '%'.$titleFromSearch.'%')->get();
-        } 
-        else {
+            $projects = Project::where('title', 'LIKE', '%' . $titleFromSearch . '%')->get();
+        } else {
             $projects = Project::all();
         }
-        
+
 
 
 
         // $projects = Project::paginate(5);
 
         return view('admin.projects.index', compact('projects'));
-        
     }
 
     /**
@@ -58,8 +57,8 @@ class ProjectController extends Controller
         $types = Type::all();
         $technologies = Technology::all();
 
-        return view('admin.projects.create',[
-            'types' => $types
+        return view('admin.projects.create', [
+            'types' => $types,
             'technologies' => $technologies
         ]);
     }
@@ -83,6 +82,12 @@ class ProjectController extends Controller
         $data['slug'] = Str::slug($data['title']);
 
         $newProject = Project::create($data);
+
+        if (array_key_exists('technologies', $data)) {
+            foreach ($data['technologies'] as $technologyId) {
+                $newProject->technologies()->attach($technologyId);
+            }
+        }
 
         $loggedUser = Auth::user();
 
@@ -135,8 +140,7 @@ class ProjectController extends Controller
                 $project->img = null;
                 $project->save();
             }
-        } 
-        else 
+        } else 
         if (array_key_exists('img', $data)) {
             $imgPath = Storage::put('projects', $data['img']);
             $data['img'] = $imgPath;
@@ -147,8 +151,25 @@ class ProjectController extends Controller
         }
 
 
-        $data['slug']= Str::slug($data['title']);
+        $data['slug'] = Str::slug($data['title']);
+
         $project->update($data);
+
+        if (array_key_exists('technologies', $data)) {
+            // foreach ($project->technologies as $technology) {
+            //     $project->technologies()->detach($technology);
+            // }
+            // foreach ($data['technologies'] as $technologyId) {
+            //     $project->technologies()->attach($technologyId);
+            // }
+            
+
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            // $project->technologies()->sync([]);
+            
+            $project->technologies()->detach();
+        }
 
         return redirect()->route('admin.projects.show', $project->id)->with('success', 'Project updated successfully!');
     }
@@ -168,6 +189,6 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('admin.projects.index', $project->id)->with('success', 'Project deleted successfully!');
+        return redirect()->route('admin.projects.index')->with('success', 'Project '. ucfirst($project->title) .' was deleted successfully!');
     }
 }

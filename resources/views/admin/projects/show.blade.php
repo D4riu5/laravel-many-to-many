@@ -13,6 +13,10 @@
                     Slug: {{ $project->slug }}
                 </h6>
 
+                <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-warning">
+                    Edit Project
+                </a>
+
                 @if ($project->type)
                     <h3 class="my-3">
                         Type:
@@ -26,6 +30,21 @@
                     </h3>
                 @endif
 
+                @if ($project->technologies->count())
+                    <h3 class="my-3">
+                        Technology used:
+                        @foreach ($project->technologies as $technology)
+                            <a class="m-2 d-inline-block" href="{{ route('admin.technologies.show', $technology->id) }}">
+                                {{ $technology->name }}
+                            </a>
+                        @endforeach
+                    </h3>
+                @else
+                    <h3 class="my-3">
+                        No technology
+                    </h3>
+                @endif
+
 
                 @if ($project->img)
                     <div>
@@ -33,6 +52,9 @@
                     </div>
                 @endif
 
+                <h3 class="my-2">
+                    Description:
+                </h3>
                 <p>
                     {!! nl2br($project->description) !!}
                 </p>

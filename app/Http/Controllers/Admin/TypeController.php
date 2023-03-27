@@ -115,6 +115,6 @@ class TypeController extends Controller
 
         $type->delete();
 
-        return redirect()->route('admin.types.index', $type->id)->with('success', 'Type deleted successfully!');
+        return redirect()->route('admin.types.index', $type->id)->with('success', 'Type '. ucfirst($type->name) .' deleted successfully!');
     }
 }
